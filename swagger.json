@@ -1,0 +1,177 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API CRUD RPG",
+      "version": "1.0.0",
+      "description": "API para gerenciamento de Personagens e Itens Mágicos para um jogo de RPG."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Servidor local"
+      }
+    ],
+    "paths": {
+      "/personagens": {
+        "post": {
+          "summary": "Cadastrar Personagem",
+          "requestBody": {
+            "description": "Dados para criar um personagem",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Personagem"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Personagem criado com sucesso"
+            },
+            "400": {
+              "description": "Erro de validação"
+            }
+          }
+        },
+        "get": {
+          "summary": "Listar Personagens",
+          "responses": {
+            "200": {
+              "description": "Lista de personagens"
+            }
+          }
+        }
+      },
+      "/personagens/{id}": {
+        "get": {
+          "summary": "Buscar Personagem por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Dados do personagem" },
+            "404": { "description": "Personagem não encontrado" }
+          }
+        },
+        "patch": {
+          "summary": "Atualizar nome do Personagem",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" }
+            }
+          ],
+          "requestBody": {
+            "description": "Novo nome do personagem",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "Personagem atualizado" },
+            "404": { "description": "Personagem não encontrado" }
+          }
+        },
+        "delete": {
+          "summary": "Remover Personagem",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Personagem removido" },
+            "404": { "description": "Personagem não encontrado" }
+          }
+        }
+      },
+      "/itens": {
+        "post": {
+          "summary": "Cadastrar Item Mágico",
+          "requestBody": {
+            "description": "Dados para criar um item mágico",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ItemMagico" }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Item criado com sucesso" },
+            "400": { "description": "Erro de validação" }
+          }
+        },
+        "get": {
+          "summary": "Listar Itens Mágicos",
+          "responses": {
+            "200": { "description": "Lista de itens mágicos" }
+          }
+        }
+      },
+      "/itens/{id}": {
+        "get": {
+          "summary": "Buscar Item Mágico por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Dados do item mágico" },
+            "404": { "description": "Item não encontrado" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Personagem": {
+          "type": "object",
+          "properties": {
+            "nome": { "type": "string" },
+            "nomeAventureiro": { "type": "string" },
+            "classe": { "type": "string", "enum": ["Guerreiro", "Mago", "Arqueiro", "Ladino", "Bardo"] },
+            "level": { "type": "integer" },
+            "forca": { "type": "integer" },
+            "defesa": { "type": "integer" }
+          },
+          "required": ["nome", "nomeAventureiro", "classe", "level", "forca", "defesa"]
+        },
+        "ItemMagico": {
+          "type": "object",
+          "properties": {
+            "nome": { "type": "string" },
+            "tipo": { "type": "string", "enum": ["Arma", "Armadura", "Amuleto"] },
+            "forca": { "type": "integer" },
+            "defesa": { "type": "integer" }
+          },
+          "required": ["nome", "tipo", "forca", "defesa"]
+        }
+      }
+    }
+  }
+  
